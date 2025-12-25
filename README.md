@@ -138,23 +138,6 @@ const formSchema = z
 - Error messages for each field
 - Accessibility with `aria-invalid` attributes
 
-### 4. Responsive Design
-
-- Mobile-friendly with minimum width constraints
-- Tailwind CSS utility classes
-- Clean, modern UI with shadcn/ui components
-
-## 🔒 Security Notes
-
-⚠️ **This is a frontend demo project**. For production use:
-
-- Always validate on the backend (never trust client-side validation)
-- Hash passwords with bcrypt or argon2 before storing
-- Use HTTPS in production
-- Implement rate limiting
-- Never log sensitive data (passwords, tokens)
-- Add CSRF protection
-
 ## 📚 Learn More
 
 ### Documentation
