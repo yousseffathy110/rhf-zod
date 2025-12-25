@@ -5,7 +5,7 @@ import { Label } from "@/components/ui/label";
 
 import ValidationFeedback from "./ValidationFeedback";
 
-import { useForm, useWatch } from "react-hook-form";
+import { SubmitHandler, useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { Loader } from "lucide-react";
@@ -36,9 +36,8 @@ export default function Page() {
     },
   });
 
-  const onSubmit = async (data: FormSchemaType) => {
+  const onSubmit: SubmitHandler<FormSchemaType> = async () => {
     await new Promise((resolve) => setTimeout(resolve, 1500));
-    console.log(data.username, data.email);
     reset({
       username: "",
       email: "",
@@ -51,6 +50,7 @@ export default function Page() {
     control,
     name: "password",
   });
+
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
