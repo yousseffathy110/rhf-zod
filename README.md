@@ -1,52 +1,97 @@
 # RHF + Zod Form Validation
 
-A modern Next.js project demonstrating form validation using React Hook Form (RHF) with native validation rules, styled with shadcn/ui components and Tailwind CSS.
+A modern Next.js registration form demonstrating advanced form validation using React Hook Form (RHF) with Zod schema validation. Features real-time password strength indicators, comprehensive validation rules, and a beautiful UI built with shadcn/ui and Tailwind CSS.
 
-## 🚀 Features
+## ✨ What This Project Does
 
-- **React Hook Form**: Performant, flexible forms with built-in validation rules
-- **Native Validation**: Form validation using React Hook Form's built-in validators (required, minLength, maxLength, validate)
-- **shadcn/ui Components**: Beautiful, accessible, and customizable UI components
-- **Next.js 16**: Latest Next.js with App Router
-- **TypeScript**: Full type safety across the application
-- **Tailwind CSS v4**: Utility-first CSS framework for rapid UI development
-- **Bun Runtime**: Fast JavaScript runtime and package manager
+This project showcases a production-ready registration form with:
+
+- **4-field registration form**: Username, Email, Password, and Confirm Password
+- **Real-time password validation**: Live feedback with visual indicators (checkmarks/crosses) as you type
+- **Advanced password requirements**:
+  - Minimum 12 characters, maximum 25 characters
+  - Must contain uppercase letters, lowercase letters, numbers, and special characters
+- **Email validation**: Proper email format checking
+- **Password confirmation**: Ensures both password fields match
+- **Async form submission**: Simulated API call with loading states
+- **Responsive design**: Works on mobile and desktop
 
 ## 📦 Tech Stack
 
-- **Framework**: Next.js 16.1.1
-- **Runtime**: Bun
+- **Framework**: [Next.js 16.1.1](https://nextjs.org/) with App Router
+- **Runtime**: [Bun](https://bun.sh/) - Fast JavaScript runtime and package manager
 - **UI Library**: React 19.2.3
-- **Form Management**: React Hook Form 7.69.0
-- **Component Library**: shadcn/ui with Radix UI primitives
-- **Styling**: Tailwind CSS v4 with PostCSS
+- **Form Management**: [React Hook Form 7.69.0](https://react-hook-form.com/)
+- **Schema Validation**: [Zod 4.2.1](https://zod.dev/)
+- **Styling**: [Tailwind CSS v4](https://tailwindcss.com/) with PostCSS
+- **Component Library**: [shadcn/ui](https://ui.shadcn.com/) with Radix UI primitives
 - **Icons**: Lucide React
 - **Type Safety**: TypeScript 5
 
-## 📂 Project Structure
-
-```
-rhf-zod/
-├── app/                    # Next.js App Router
-│   ├── globals.css        # Global styles with Tailwind CSS v4
-│   ├── layout.tsx         # Root layout with metadata
-│   └── page.tsx           # Registration form with React Hook Form validation
-├── components/            # React components
-│   ├── forms/            # Custom form components
-│   │   └── InputGroup.tsx # Reusable input group component (legacy)
-│   └── ui/               # shadcn/ui base components
-│       ├── button.tsx    # Button component with variants
-│       ├── input.tsx     # Input component with focus and validation states
-│       └── label.tsx     # Label component
-├── lib/                  # Utility functions
-│   └── utils.ts         # Helper utilities (cn function for class merging)
-├── public/              # Static assets
-└── config files         # TypeScript, ESLint, Next.js, Tailwind configs
-```
-
-## 🛠️ Getting Started
+## 🛠️ Installation
 
 ### Prerequisites
+
+- [Bun](https://bun.sh/) installed on your machine
+
+To install Bun (if not already installed):
+
+```bash
+curl -fsSL https://bun.sh/install | bash
+```
+
+### Setup
+
+1. Clone the repository:
+
+```bash
+git clone <repository-url>
+cd rhf-zod
+```
+
+2. Install dependencies using Bun:
+
+```bash
+bun install
+```
+
+## 🚀 Running the Project
+
+### Development Mode
+
+Start the development server:
+
+```bash
+bun dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) in your browser to see the application.
+
+The page auto-updates as you edit files.
+
+### Build for Production
+
+Build the application:
+
+```bash
+bun run build
+```
+
+### Start Production Server
+
+Run the production build:
+
+```bash
+bun start
+```
+
+### Linting
+
+Check code quality:
+
+```bash
+bun run lint
+```
 
 - [Bun](https://bun.sh/) installed on your machine
 - Node.js 20+ (alternative to Bun)
