@@ -1,7 +1,8 @@
 import { cn } from "@/lib/utils";
 import { ShieldCheck, ShieldX } from "lucide-react";
+import { memo } from "react";
 
-export default function ValidationFeedback({
+function ValidationFeedback({
   errorMsg,
   passed,
 }: {
@@ -38,3 +39,5 @@ export default function ValidationFeedback({
     </div>
   );
 }
+export default memo(ValidationFeedback);
+

@@ -5,7 +5,7 @@ import { Label } from "@/components/ui/label";
 
 import ValidationFeedback from "./ValidationFeedback";
 
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { Loader } from "lucide-react";
@@ -24,7 +24,7 @@ export default function Page() {
     register,
     handleSubmit,
     reset,
-    watch,
+    control,
     formState: { errors, isSubmitting },
   } = useForm<FormSchemaType>({
     resolver: zodResolver(formSchema),
@@ -47,8 +47,10 @@ export default function Page() {
     });
   };
 
-  const passwordValue = watch("password", "");
-
+  const passwordValue = useWatch({
+    control,
+    name: "password",
+  });
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
