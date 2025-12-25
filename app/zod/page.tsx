@@ -54,7 +54,7 @@ export default function Page() {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="border rounded-md bg-gray-100 p-3 flex items-center flex-col"
+      className="border rounded-md bg-gray-100 p-3 flex items-center flex-col m-5"
     >
       <h1 className="text-2xl font-medium">RHF + Zod</h1>
 

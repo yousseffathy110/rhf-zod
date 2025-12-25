@@ -30,10 +30,10 @@ export default function Page() {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="border rounded-md bg-gray-100 p-3 flex items-center flex-col"
+      className="border rounded-md bg-gray-100 p-3 flex items-center flex-col m-5"
     >
       <h1 className="text-2xl font-medium">RHF Only</h1>
-      <div className="flex flex-col gap-3 w-1/3 min-w-96 p-5">
+      <div className="flex flex-col gap-3 w-full max-sm:min-w-[320px] px-5 py-3 min-w-100">
         <Label className="text-lg font-medium capitalize">user name</Label>
         <Input
           type="text"
@@ -56,7 +56,7 @@ export default function Page() {
           </p>
         )}
       </div>
-      <div className="flex flex-col gap-3 w-1/3 min-w-96 p-5">
+      <div className="flex flex-col gap-3 w-full max-sm:min-w-[320px] px-5 py-3 min-w-100">
         <Label className="text-lg font-medium capitalize">password</Label>
         <Input
           type="password"
@@ -82,7 +82,7 @@ export default function Page() {
           </p>
         )}
       </div>
-      <div className="flex flex-col gap-3 w-1/3 min-w-96 p-5">
+      <div className="flex flex-col gap-3 w-full max-sm:min-w-[320px] px-5 py-3 min-w-100">
         <Label className="text-lg font-medium capitalize">
           confirm password
         </Label>
