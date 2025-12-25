@@ -1,11 +1,11 @@
 # RHF + Zod Form Validation
 
-A modern Next.js project demonstrating form validation using React Hook Form (RHF) with Zod schema validation, styled with shadcn/ui components and Tailwind CSS.
+A modern Next.js project demonstrating form validation using React Hook Form (RHF) with native validation rules, styled with shadcn/ui components and Tailwind CSS.
 
 ## 🚀 Features
 
-- **React Hook Form**: Performant, flexible forms with easy-to-use validation
-- **Zod Schema Validation**: TypeScript-first schema validation with static type inference
+- **React Hook Form**: Performant, flexible forms with built-in validation rules
+- **Native Validation**: Form validation using React Hook Form's built-in validators (required, minLength, maxLength, validate)
 - **shadcn/ui Components**: Beautiful, accessible, and customizable UI components
 - **Next.js 16**: Latest Next.js with App Router
 - **TypeScript**: Full type safety across the application
@@ -18,7 +18,6 @@ A modern Next.js project demonstrating form validation using React Hook Form (RH
 - **Runtime**: Bun
 - **UI Library**: React 19.2.3
 - **Form Management**: React Hook Form 7.69.0
-- **Validation**: Zod 4.2.1
 - **Component Library**: shadcn/ui with Radix UI primitives
 - **Styling**: Tailwind CSS v4 with PostCSS
 - **Icons**: Lucide React
@@ -29,19 +28,20 @@ A modern Next.js project demonstrating form validation using React Hook Form (RH
 ```
 rhf-zod/
 ├── app/                    # Next.js App Router
-│   ├── globals.css        # Global styles
+│   ├── globals.css        # Global styles with Tailwind CSS v4
 │   ├── layout.tsx         # Root layout with metadata
-│   └── page.tsx           # Home page with form example
+│   └── page.tsx           # Registration form with React Hook Form validation
 ├── components/            # React components
 │   ├── forms/            # Custom form components
-│   │   └── InputGroup.tsx # Reusable input group component
+│   │   └── InputGroup.tsx # Reusable input group component (legacy)
 │   └── ui/               # shadcn/ui base components
 │       ├── button.tsx    # Button component with variants
-│       ├── input.tsx     # Input component
+│       ├── input.tsx     # Input component with focus and validation states
 │       └── label.tsx     # Label component
 ├── lib/                  # Utility functions
-│   └── utils.ts         # Helper utilities (cn function)
-└── public/              # Static assets
+│   └── utils.ts         # Helper utilities (cn function for class merging)
+├── public/              # Static assets
+└── config files         # TypeScript, ESLint, Next.js, Tailwind configs
 ```
 
 ## 🛠️ Getting Started
@@ -104,74 +104,135 @@ bun run lint
 
 ## 🎨 Components
 
-### InputGroup
+### Registration Form
 
-A reusable form input component that combines a label and input field with consistent styling.
+The main form implements a complete registration flow with validation:
 
-**Props:**
+**Features:**
 
-- `type`: Input type (text, email, password)
-- `label`: Label text
-- `id`: Input ID and htmlFor attribute
-- `className`: Optional container class names
-- `labelClassName`: Optional label class names
-- `inputClassName`: Optional input class names
-- `placeholder`: Optional placeholder text
+- Username field with required and max length (20 chars) validation
+- Password field with min length (6 chars) and max length (20 chars) validation
+- Confirm password field with match validation
+- Real-time error display below each field
+- Submit button with loading state
+- Form reset after successful submission
+- Accessibility features with `aria-invalid` attributes
+- Disabled state during form submission
 
-**Usage:**
+**Validation Rules:**
 
-```tsx
-<InputGroup
-  label="Email Address"
-  type="email"
-  id="email"
-  placeholder="Enter your email"
-/>
-```
+- **Username**: Required, max 20 characters
+- **Password**: Required, min 6 characters, max 20 characters
+- **Confirm Password**: Required, must match password
 
 ### UI Components
 
 The project uses shadcn/ui components built on Radix UI primitives:
 
-- **Button**: Multiple variants (default, destructive, outline, secondary, ghost, link) and sizes
-- **Input**: Styled text input with focus states and validation styling
+- **Button**: Multiple variants (default, destructive, outline, secondary, ghost, link) and sizes with loading state support
+- **Input**: Styled text input with focus states, validation styling, and disabled state
 - **Label**: Accessible label component with proper associations
 
-## 📝 Form Validation (To be implemented)
+## 📝 Form Validation Implementation
 
-This project is set up to integrate React Hook Form with Zod validation:
+This project demonstrates React Hook Form with native validation rules:
 
-1. Define a Zod schema for your form
-2. Use `@hookform/resolvers` to connect Zod with React Hook Form
-3. Apply validation rules and display error messages
+### Form Setup
 
-**Example schema:**
+The form uses TypeScript interfaces for type safety:
 
 ```typescript
-import { z } from "zod";
-
-const formSchema = z
-  .object({
-    username: z.string().min(3, "Username must be at least 3 characters"),
-    email: z.string().email("Invalid email address"),
-    password: z.string().min(8, "Password must be at least 8 characters"),
-    confirmPassword: z.string(),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords don't match",
-    path: ["confirmPassword"],
-  });
+type InputForm = {
+  username: string;
+  password: string;
+  confirmPassword: string;
+};
 ```
 
-## 🎯 Next Steps
+### Validation Patterns
 
-To complete the form validation implementation:
+**1. Required Field Validation:**
 
-1. Create a Zod schema for the registration form
-2. Integrate React Hook Form with the form component
-3. Add error message display for validation failures
-4. Implement form submission handling
-5. Add loading and success states
+```typescript
+{...register("username", {
+  required: "Username is required"
+})}
+```
+
+**2. Length Validation:**
+
+```typescript
+{...register("username", {
+  required: "Username is required",
+  maxLength: {
+    value: 20,
+    message: "Username cannot exceed 20 characters"
+  }
+})}
+```
+
+**3. Custom Validation (Password Match):**
+
+```typescript
+{...register("confirmPassword", {
+  required: "Confirm password is required",
+  validate: (value) =>
+    value === getValues("password") || "Passwords do not match"
+})}
+```
+
+### Error Handling
+
+Errors are displayed conditionally below each field:
+
+```typescript
+{
+  errors.username && (
+    <p className="text-destructive text-sm capitalize">
+      {errors.username.message}
+    </p>
+  );
+}
+```
+
+### Form Submission
+
+The form includes async submission handling with loading state:
+
+```typescript
+const onSubmit = async (data: InputForm) => {
+  await new Promise((resolve) => setTimeout(resolve, 1500));
+  console.log(data);
+  reset();
+};
+```
+
+## 🎯 Key Implementation Details
+
+### React Hook Form Features Used
+
+1. **useForm Hook**: Managing form state, validation, and submission
+2. **register**: Connecting inputs to form state with validation rules
+3. **handleSubmit**: Handling form submission with validation
+4. **formState**: Accessing errors and submission state
+5. **getValues**: Retrieving field values for custom validation
+6. **reset**: Clearing form after successful submission
+
+### Validation Features
+
+- **Required fields**: All fields are mandatory
+- **Length constraints**: Username max 20 chars, password 6-20 chars
+- **Pattern matching**: Confirm password must match password
+- **Real-time feedback**: Errors display immediately after field interaction
+- **Accessibility**: ARIA attributes for screen readers
+
+### UX Enhancements
+
+- Loading state during submission ("Submitting..." text)
+- Disabled inputs during submission to prevent duplicate requests
+- Form reset after successful submission
+- Error messages styled with Tailwind CSS
+- Responsive design with minimum width constraints
 
 ## 📚 Learn More
 
