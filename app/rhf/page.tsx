@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Loader } from "lucide-react";
 
 type InputForm = {
   username: string;
@@ -109,7 +110,7 @@ export default function Page() {
         disabled={isSubmitting}
         className="self-start ml-5 mt-2 rounded-sm min-w-44"
       >
-        {isSubmitting ? "Submitting..." : "Submit"}
+        {isSubmitting ? <Loader className="animate-spin" /> : "Submit"}
       </Button>
     </form>
   );
