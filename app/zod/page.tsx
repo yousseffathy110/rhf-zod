@@ -1,11 +1,9 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-
+import InputGroup from "./InputGroup";
 import ValidationFeedback from "./ValidationFeedback";
 
-import { SubmitHandler, useForm, useWatch } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import ErrorMsg from "./ErrorMsg";
 import { Loader } from "lucide-react";
@@ -36,7 +34,42 @@ export default function Page() {
     },
   });
 
-  const onSubmit: SubmitHandler<FormSchemaType> = async () => {
+  const InputValues = [
+    {
+      label: "user name",
+      name: "username",
+      type: "text",
+      placeholder: "Enter your user name",
+      error: errors.username,
+      register: register("username"),
+    },
+    {
+      label: "Email Address",
+      name: "email",
+      type: "email",
+      placeholder: "Enter your email address",
+      error: errors.email,
+      register: register("email"),
+    },
+    {
+      label: "password",
+      name: "password",
+      type: "password",
+      placeholder: "Enter your password",
+      error: errors.password,
+      register: register("password"),
+    },
+    {
+      label: "confirm password",
+      name: "confirmPassword",
+      type: "password",
+      placeholder: "Confirm your password",
+      error: errors.confirmPassword,
+      register: register("confirmPassword"),
+    },
+  ] as const;
+
+  const onSubmit = async (data: FormSchemaType) => {
     await new Promise((resolve) => setTimeout(resolve, 1500));
     reset({
       username: "",
@@ -44,6 +77,7 @@ export default function Page() {
       password: "",
       confirmPassword: "",
     });
+    console.log(data);
   };
 
   const passwordValue = useWatch({
@@ -58,73 +92,35 @@ export default function Page() {
     >
       <h1 className="text-2xl font-medium">RHF + Zod</h1>
 
-      <div className={formFieldStyles}>
-        <Label className="text-lg font-medium capitalize">user name</Label>
-        <Input
-          type="text"
-          placeholder="Enter your user name"
-          className="text-xl font-medium"
-          disabled={isSubmitting}
-          aria-invalid={!!errors.username}
-          {...register("username")}
-        />
-        {errors?.username && <ErrorMsg message={errors.username} />}
-      </div>
-
-      <div className={formFieldStyles}>
-        <Label className="text-lg font-medium capitalize">Email Address</Label>
-        <Input
-          type="email"
-          placeholder="Enter your email address"
-          className="text-xl font-medium"
-          disabled={isSubmitting}
-          aria-invalid={!!errors.email}
-          {...register("email")}
-        />
-        {errors?.email && <ErrorMsg message={errors.email} />}
-      </div>
-
-      <div className={formFieldStyles}>
-        <Label className="text-lg font-medium capitalize">password</Label>
-        <Input
-          type="password"
-          placeholder="Enter your password"
-          className="text-xl font-medium"
-          disabled={isSubmitting}
-          aria-invalid={!!errors.password}
-          {...register("password")}
-        />
-        <div className="flex flex-col gap-2 mt-1">
-          {passwordValue &&
-            passwordRules.map((rule) => {
-              const passed = rule.test(passwordValue);
-              return (
-                <ValidationFeedback
-                  key={rule.key}
-                  errorMsg={rule.label}
-                  passed={passed}
-                />
-              );
-            })}
+      {InputValues.map((input) => (
+        <div key={input.label} className={formFieldStyles}>
+          <InputGroup
+            label={input.label}
+            type={input.type}
+            placeholder={input.placeholder}
+            isSubmitting={isSubmitting}
+            error={input.error}
+            register={input.register}
+          />
+          {input.name === "password" ? (
+            <div className="flex flex-col gap-1.5 mt-1">
+              {passwordValue &&
+                passwordRules.map((rule) => {
+                  const passed = rule.test(passwordValue);
+                  return (
+                    <ValidationFeedback
+                      key={rule.key}
+                      errorMsg={rule.label}
+                      passed={passed}
+                    />
+                  );
+                })}
+            </div>
+          ) : (
+            <ErrorMsg message={input.error} />
+          )}
         </div>
-      </div>
-
-      <div className={formFieldStyles}>
-        <Label className="text-lg font-medium capitalize">
-          confirm password
-        </Label>
-        <Input
-          type="password"
-          placeholder="Confirm your password"
-          className="text-xl font-medium"
-          disabled={isSubmitting}
-          aria-invalid={!!errors.confirmPassword}
-          {...register("confirmPassword")}
-        />
-        {errors.confirmPassword && (
-          <ErrorMsg message={errors.confirmPassword} />
-        )}
-      </div>
+      ))}
 
       <Button
         size={"lg"}
