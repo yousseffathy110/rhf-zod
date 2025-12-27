@@ -7,7 +7,7 @@ import ValidationFeedback from "./ValidationFeedback";
 
 import { SubmitHandler, useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-
+import ErrorMsg from "./ErrorMsg";
 import { Loader } from "lucide-react";
 
 import {
@@ -68,11 +68,7 @@ export default function Page() {
           aria-invalid={!!errors.username}
           {...register("username")}
         />
-        {errors?.username && (
-          <p className="text-sm text-red-600 mt-1">
-            {errors.username?.message}
-          </p>
-        )}
+        {errors?.username && <ErrorMsg message={errors.username} />}
       </div>
 
       <div className={formFieldStyles}>
@@ -85,9 +81,7 @@ export default function Page() {
           aria-invalid={!!errors.email}
           {...register("email")}
         />
-        {errors?.email && (
-          <p className="text-sm text-red-600 mt-1">{errors.email?.message}</p>
-        )}
+        {errors?.email && <ErrorMsg message={errors.email} />}
       </div>
 
       <div className={formFieldStyles}>
@@ -128,9 +122,7 @@ export default function Page() {
           {...register("confirmPassword")}
         />
         {errors.confirmPassword && (
-          <p className="text-sm text-red-600 mt-1">
-            {errors.confirmPassword?.message}
-          </p>
+          <ErrorMsg message={errors.confirmPassword} />
         )}
       </div>
 
