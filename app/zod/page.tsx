@@ -35,44 +35,40 @@ export default function Page() {
     },
   });
 
-  const InputValues = useMemo(
-    () =>
-      [
-        {
-          label: "user name",
-          name: "username",
-          type: "text",
-          placeholder: "Enter your user name",
-          error: errors.username,
-          register: register("username"),
-        },
-        {
-          label: "Email Address",
-          name: "email",
-          type: "email",
-          placeholder: "Enter your email address",
-          error: errors.email,
-          register: register("email"),
-        },
-        {
-          label: "password",
-          name: "password",
-          type: "password",
-          placeholder: "Enter your password",
-          error: errors.password,
-          register: register("password"),
-        },
-        {
-          label: "confirm password",
-          name: "confirmPassword",
-          type: "password",
-          placeholder: "Confirm your password",
-          error: errors.confirmPassword,
-          register: register("confirmPassword"),
-        },
-      ] as const,
-    [register, errors]
-  );
+  const InputValues = [
+    {
+      label: "user name",
+      name: "username",
+      type: "text",
+      placeholder: "Enter your user name",
+      error: errors.username,
+      register: register("username"),
+    },
+    {
+      label: "Email Address",
+      name: "email",
+      type: "email",
+      placeholder: "Enter your email address",
+      error: errors.email,
+      register: register("email"),
+    },
+    {
+      label: "password",
+      name: "password",
+      type: "password",
+      placeholder: "Enter your password",
+      error: errors.password,
+      register: register("password"),
+    },
+    {
+      label: "confirm password",
+      name: "confirmPassword",
+      type: "password",
+      placeholder: "Confirm your password",
+      error: errors.confirmPassword,
+      register: register("confirmPassword"),
+    },
+  ] as const;
 
   const onSubmit = async (data: FormSchemaType) => {
     await new Promise((resolve) => setTimeout(resolve, 1500));
