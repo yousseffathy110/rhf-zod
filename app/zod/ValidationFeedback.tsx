@@ -15,15 +15,15 @@ function ValidationFeedback({
         <ShieldCheck
           fill="green"
           stroke="white"
-          size={20}
-          color="green"
+          size={18}
+          color="#0B7427"
           className="[&>path:first-child]:stroke-green-700"
         />
       ) : (
         <ShieldX
           fill="red"
           stroke="white"
-          size={20}
+          size={18}
           color="red"
           className="[&>path:first-child]:stroke-red-500"
         />
