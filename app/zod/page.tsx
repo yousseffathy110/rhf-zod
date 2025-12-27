@@ -7,6 +7,7 @@ import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import ErrorMsg from "./ErrorMsg";
 import { Loader } from "lucide-react";
+import { useMemo } from "react";
 
 import {
   formSchema,
@@ -34,40 +35,44 @@ export default function Page() {
     },
   });
 
-  const InputValues = [
-    {
-      label: "user name",
-      name: "username",
-      type: "text",
-      placeholder: "Enter your user name",
-      error: errors.username,
-      register: register("username"),
-    },
-    {
-      label: "Email Address",
-      name: "email",
-      type: "email",
-      placeholder: "Enter your email address",
-      error: errors.email,
-      register: register("email"),
-    },
-    {
-      label: "password",
-      name: "password",
-      type: "password",
-      placeholder: "Enter your password",
-      error: errors.password,
-      register: register("password"),
-    },
-    {
-      label: "confirm password",
-      name: "confirmPassword",
-      type: "password",
-      placeholder: "Confirm your password",
-      error: errors.confirmPassword,
-      register: register("confirmPassword"),
-    },
-  ] as const;
+  const InputValues = useMemo(
+    () =>
+      [
+        {
+          label: "user name",
+          name: "username",
+          type: "text",
+          placeholder: "Enter your user name",
+          error: errors.username,
+          register: register("username"),
+        },
+        {
+          label: "Email Address",
+          name: "email",
+          type: "email",
+          placeholder: "Enter your email address",
+          error: errors.email,
+          register: register("email"),
+        },
+        {
+          label: "password",
+          name: "password",
+          type: "password",
+          placeholder: "Enter your password",
+          error: errors.password,
+          register: register("password"),
+        },
+        {
+          label: "confirm password",
+          name: "confirmPassword",
+          type: "password",
+          placeholder: "Confirm your password",
+          error: errors.confirmPassword,
+          register: register("confirmPassword"),
+        },
+      ] as const,
+    [register, errors]
+  );
 
   const onSubmit = async (data: FormSchemaType) => {
     await new Promise((resolve) => setTimeout(resolve, 1500));
@@ -93,7 +98,7 @@ export default function Page() {
       <h1 className="text-2xl font-medium">RHF + Zod</h1>
 
       {InputValues.map((input) => (
-        <div key={input.label} className={formFieldStyles}>
+        <div key={input.name} className={formFieldStyles}>
           <InputGroup
             label={input.label}
             type={input.type}
